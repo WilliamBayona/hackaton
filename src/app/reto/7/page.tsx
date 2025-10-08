@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 
 // Reto 7: Un vaino que tiene frases random 
-// Usando una API que funciona sin CORS
 const API = "https://dummyjson.com/quotes/random"
 
 interface Quote {
