@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function Home() {
-  const retos = [1, 2, 3, 4, 5];
+  const retos = [1, 2, 3, 4, 5, 6, 7];
 
   return (
     <div className="min-h-screen bg-white text-black flex items-center justify-center p-8">
