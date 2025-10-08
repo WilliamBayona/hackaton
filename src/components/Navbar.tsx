@@ -1,41 +1,45 @@
-"use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-export default function Navbar() {
-  const pathname = usePathname();
-
-  const links = [
-    { href: "/", label: "Inicio" },
-    { href: "/reto/1", label: "Reto 1" },
-    { href: "/reto/2", label: "Reto 2" },
-    { href: "/reto/3", label: "Reto 3" },
-    { href: "/reto/4", label: "Reto 4" },
-    { href: "/reto/5", label: "Reto 5" },
-    { href: "/reto/6", label: "Reto 6" },
-    { href: "/reto/7", label: "Reto 7" },
-  ];
-
+export default function NavBar() {
   return (
-    <nav className="w-full bg-gray-100 border-b border-gray-300">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-3">
-        <h1 className="text-lg font-semibold text-gray-800">Hackaton</h1>
-        <ul className="flex gap-4 text-sm font-medium">
-          {links.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                className={`${
-                  pathname === href
-                    ? "text-blue-600 font-semibold"
-                    : "text-gray-700 hover:text-blue-600"
-                } transition-colors`}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
+    <nav
+      className="rounded-md px-4 py-3"
+      style={{
+        backgroundColor: "#2c333a", 
+        color: "#e5eef5",
+        border: "1px solid #3b4752",
+      }}
+    >
+      <div className="flex items-center gap-6">
+       
+        <div className="text-2xl font-extrabold tracking-wide shrink-0">Navbar</div>
+
+        <ul className="hidden sm:flex items-center gap-6 text-xl/none font-medium opacity-90 shrink-0">
+          <li className="hover:opacity-100 transition-opacity">Home</li>
+          <li className="hover:opacity-100 transition-opacity">Features</li>
+          <li className="hover:opacity-100 transition-opacity">Pricing</li>
+          <li className="hover:opacity-100 transition-opacity">About</li>
         </ul>
+
+        <div className="ml-auto flex items-center gap-3 flex-1 max-w-full">
+          <input
+            type="text"
+            placeholder="Search"
+            className="flex-1 min-w-0 w-full rounded-md px-4 py-2 text-black"
+            style={{
+              backgroundColor: "#f1f5f9",
+              border: "1px solid #8aa1b5",
+            }}
+          />
+          <button
+            className="rounded-md px-4 py-2 text-lg font-semibold shrink-0"
+            style={{
+              backgroundColor: "#2c333a",
+              border: "2px solid #1aa3b0",
+              color: "#1aa3b0",
+            }}
+          >
+            Search
+          </button>
+        </div>
       </div>
     </nav>
   );
