@@ -4,4 +4,8 @@ Maria Paula Murillo 202224530
 
 Dilan Escobar 202312090 
 
-Sergio Castaño 202310390:
+Sergio Castaño 202310390
+
+Camilo Murcia 202317418
+
+Tomás Velásquez 202311016
