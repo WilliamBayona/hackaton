@@ -1,26 +1,35 @@
-import Link from "next/link";
+"use client";
+import { useState } from "react";
 
-interface Props {
-  params: { id: string };
-}
+export default function DarkModeToggle() {
+  const [darkMode, setDarkMode] = useState(false);
 
-export default function RetoPage({ params }: Props) {
-  const { id } = params;
+  const toggleMode = () => setDarkMode(!darkMode);
+
   return (
-    <div className="min-h-screen bg-white text-black flex items-center justify-center p-8">
-      <main className="w-full max-w-xl text-center">
-        <h1 className="text-4xl font-bold mb-4">Reto {id}</h1>
-        <p className="mb-6 text-sm text-black/70">Esta es la página del reto {id}. Aquí puedes añadir la descripción del reto.</p>
+    <main
+      className={`flex flex-col items-center justify-center min-h-screen transition-colors duration-500 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+      }`}
+    >
+      <h1 className="text-3xl font-semibold mb-10">
+        {darkMode ? "Ola es de noche" : "Ola es de día"}
+      </h1>
 
-        <div className="flex justify-center gap-4">
-          <Link
-            href="/"
-            className="inline-block border border-black px-4 py-2 rounded hover:bg-black hover:text-white transition-colors"
-          >
-            Volver
-          </Link>
-        </div>
-      </main>
-    </div>
+      <button
+        onClick={toggleMode}
+        className={`relative w-20 h-10 rounded-full transition-colors duration-500 flex items-center ${
+          darkMode ? "bg-gray-700" : "bg-gray-300"
+        }`}
+      >
+        <span
+          className={`absolute w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center transition-all duration-500 ${
+            darkMode ? "translate-x-10" : "translate-x-1"
+          }`}
+        >
+          {darkMode ? "🌙" : "☀️"}
+        </span>
+      </button>
+    </main>
   );
 }

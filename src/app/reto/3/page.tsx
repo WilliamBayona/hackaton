@@ -1,26 +1,40 @@
-import Link from "next/link";
+"use client";
+import { useState } from "react";
 
-interface Props {
-  params: { id: string };
-}
+export default function Reto3() {
+  const [celdas, setCeldas] = useState<string[]>(Array(9).fill(""));
+  const [turno, setTurno] = useState<"X" | "O">("X");
 
-export default function RetoPage({ params }: Props) {
-  const { id } = params;
+  const jugar = (i: number) => {
+    if (celdas[i] !== "") return; 
+    const nuevas = [...celdas];
+    nuevas[i] = turno;
+    setCeldas(nuevas);
+    setTurno(turno === "X" ? "O" : "X");
+  };
+
+  const reiniciar = () => {
+    setCeldas(Array(9).fill(""));
+    setTurno("X");
+  };
+
   return (
-    <div className="min-h-screen bg-white text-black flex items-center justify-center p-8">
-      <main className="w-full max-w-xl text-center">
-        <h1 className="text-4xl font-bold mb-4">Reto {id}</h1>
-        <p className="mb-6 text-sm text-black/70">Esta es la página del reto {id}. Aquí puedes añadir la descripción del reto.</p>
+    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 font-sans">
 
-        <div className="flex justify-center gap-4">
-          <Link
-            href="/"
-            className="inline-block border border-black px-4 py-2 rounded hover:bg-black hover:text-white transition-colors"
+      <div className="grid grid-cols-3">
+        {celdas.map((valor, i) => (
+          <button
+            key={i}
+            onClick={() => jugar(i)}
+            className="w-24 h-24 text-5xl flex items-center justify-center bg-white border-2 border-black hover:bg-blue-50 transition-colors disabled:bg-gray-200"
+            disabled={valor !== ""}
           >
-            Volver
-          </Link>
-        </div>
-      </main>
-    </div>
+            {valor}
+          </button>
+        ))}
+      </div>
+
+
+    </main>
   );
 }
