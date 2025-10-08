@@ -1,26 +1,100 @@
-import Link from "next/link";
+"use client"
+import { useEffect, useState } from "react"
+import Link from "next/link"
 
-interface Props {
-  params: { id: string };
+// Reto 7: Un vaino que tiene frases random 
+const API = "https://zenquotes.io/api/random"
+
+interface Quote {
+  content: string
+  author: string
 }
 
-export default function RetoPage({ params }: Props) {
-  const { id } = params;
-  return (
-    <div className="min-h-screen bg-white text-black flex items-center justify-center p-8">
-      <main className="w-full max-w-xl text-center">
-        <h1 className="text-4xl font-bold mb-4">Reto {id}</h1>
-        <p className="mb-6 text-sm text-black/70">Esta es la página del reto {id}. Aquí puedes añadir la descripción del reto.</p>
+export default function Reto7() {
+  const [quote, setQuote] = useState<Quote | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-        <div className="flex justify-center gap-4">
-          <Link
-            href="/"
-            className="inline-block border border-black px-4 py-2 rounded hover:bg-black hover:text-white transition-colors"
-          >
-            Volver
-          </Link>
+  const fetchQuote = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const res = await fetch(API)
+      
+      if (!res.ok) {
+        throw new Error('Error al obtener la frase')
+      }
+      
+      const data = await res.json()
+      
+      
+      const quoteData = data[0]
+      console.log(quoteData.q, "-", quoteData.a)
+      
+      setQuote({
+        content: quoteData.q,
+        author: quoteData.a
+      })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error desconocido')
+      console.error('Error:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchQuote()
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-8">
+      <div className="max-w-2xl w-full text-center">
+                
+        <div className="bg-gray-100 border-2 border-black p-8 rounded-none mb-8 min-h-[200px] flex flex-col justify-center">
+          {loading && (
+            <div className="text-xl">
+              Cargando frase...
+            </div>
+          )}
+          
+          {error && (
+            <div className="text-red-600 text-lg">
+              Error: {error}
+            </div>
+          )}
+          
+          {quote && !loading && (
+            <div>
+              <blockquote className="text-xl italic mb-4 leading-relaxed">
+                "{quote.content}"
+              </blockquote>
+              <cite className="text-lg font-semibold">
+                — {quote.author}
+              </cite>
+            </div>
+          )}
         </div>
-      </main>
+        
+        <div className="space-y-4">
+          <button
+            onClick={fetchQuote}
+            disabled={loading}
+            className="bg-black text-white px-8 py-3 border-2 border-black hover:bg-white hover:text-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+          >
+            {loading ? 'Cargando...' : 'Nueva Frase'}
+          </button>
+          
+          <div>
+            <Link 
+              href="/"
+              className="inline-block bg-white text-black px-6 py-2 border-2 border-black hover:bg-black hover:text-white transition-colors font-semibold"
+            >
+              ← Volver al Inicio
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
