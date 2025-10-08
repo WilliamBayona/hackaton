@@ -3,7 +3,8 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 
 // Reto 7: Un vaino que tiene frases random 
-const API = "https://zenquotes.io/api/random"
+// Usando una API que funciona sin CORS
+const API = "https://dummyjson.com/quotes/random"
 
 interface Quote {
   content: string
@@ -26,14 +27,11 @@ export default function Reto7() {
       }
       
       const data = await res.json()
-      
-      
-      const quoteData = data[0]
-      console.log(quoteData.q, "-", quoteData.a)
+      console.log(data.quote, "-", data.author)
       
       setQuote({
-        content: quoteData.q,
-        author: quoteData.a
+        content: data.quote,
+        author: data.author
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido')
@@ -50,6 +48,9 @@ export default function Reto7() {
   return (
     <div className="min-h-screen bg-white text-black flex flex-col items-center justify-center p-8">
       <div className="max-w-2xl w-full text-center">
+        <h1 className="text-4xl font-bold mb-8 border-b-2 border-black pb-4">
+          Reto 7: Frases Inspiradoras
+        </h1>
                 
         <div className="bg-gray-100 border-2 border-black p-8 rounded-none mb-8 min-h-[200px] flex flex-col justify-center">
           {loading && (
